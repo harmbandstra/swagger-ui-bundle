@@ -28,14 +28,14 @@ class AppKernel extends Kernel
     {
         $bundles = [
             ...
-            new HarmBandstra\SwaggerUiBundle\HarmBandstraSwaggerUiBundle(),
+            new HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle(),
 ```
 
 Add the route where swagger-ui will be available in `routing.yml`:
 
 ```yml
 hb_swagger_ui:
-    resource: '@HarmBandstraSwaggerUiBundle/Resources/config/routing.yml'
+    resource: '@HBSwaggerUiBundle/Resources/config/routing.yml'
     prefix: /docs
 ```
 
@@ -47,7 +47,7 @@ Specify the `directory` where your swagger files reside. You can access multiple
 If you specify a `default_swagger_file` the `/docs` endpoint will redirect to this file.
 
 ```yaml
-harm_bandstra_swagger_ui:
+hb_swagger_ui:
   directory: "%kernel.root_dir%/../docs/"
   default_file: "my_swagger_spec.json"
 ```
