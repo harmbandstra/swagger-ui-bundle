@@ -23,7 +23,10 @@
     "src"
   ],
   "scripts": {
-    "post-update-cmd": [
+    "post-package-install": [
+      "cp -R ./vendor/swagger-api/swagger-ui/dist ./vendor/harmbandstra/swagger-ui-bundle/src/Resources/public/swagger-ui"
+    ],
+    "post-package-update": [
       "cp -R ./vendor/swagger-api/swagger-ui/dist ./vendor/harmbandstra/swagger-ui-bundle/src/Resources/public/swagger-ui"
     ]
   }
