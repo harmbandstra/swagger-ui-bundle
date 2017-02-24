@@ -19,16 +19,16 @@ class DocsController extends Controller
     public function indexAction(Request $request)
     {
         $docsDirectory = $this->getParameter('harm_bandstra_swagger_ui.directory');
-        if (!is_dir($docsDirectory)) {
+        if (!is_dir(realpath($docsDirectory))) {
             throw new FileNotFoundException(sprintf('Directory [%s] not found.', $docsDirectory));
         }
 
         $defaultFile = $this->getParameter('harm_bandstra_swagger_ui.default_file');
-        if (!is_file($defaultFile)) {
+        if (!is_file(realpath($docsDirectory . DIRECTORY_SEPARATOR . $defaultFile))) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $docsDirectory));
         }
 
-        $swaggerUiRoute = sprintf('%s/bundles/swagger-ui-bundle/index.html', $request->getSchemeAndHttpHost());
+        $swaggerUiRoute = sprintf('%s/bundles/harmbandstraswaggerui/swagger-ui/index.html', $request->getSchemeAndHttpHost());
         $swaggerFileRoute = $this->get('router')->generate('hb_swagger_ui_swagger_file', ['fileName' => $defaultFile]);
 
         return $this->redirect($swaggerUiRoute . '?url=' . $swaggerFileRoute);
