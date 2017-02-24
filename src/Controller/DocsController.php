@@ -18,12 +18,12 @@ class DocsController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $docsDirectory = $this->getParameter('hb_swagger_ui.directory');
+        $docsDirectory = $this->getParameter('harm_bandstra_swagger_ui.directory');
         if (!is_dir($docsDirectory)) {
             throw new FileNotFoundException(sprintf('Directory [%s] not found.', $docsDirectory));
         }
 
-        $defaultFile = $this->getParameter('hb_swagger_ui.default_file');
+        $defaultFile = $this->getParameter('harm_bandstra_swagger_ui.default_file');
         if (!is_file($defaultFile)) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $docsDirectory));
         }
@@ -41,7 +41,7 @@ class DocsController extends Controller
      */
     public function swaggerFileAction($fileName)
     {
-        $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
+        $filePath = realpath($this->getParameter('harm_bandstra_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
         if (!is_file($filePath)) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $filePath));
         }
