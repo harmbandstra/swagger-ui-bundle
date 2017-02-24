@@ -1,7 +1,7 @@
 {
   "name": "harmbandstra/swagger-ui-bundle",
   "type": "library",
-  "description": "Swagger UI bundle",
+  "description": "Exposes swagger UI inside your Symfony project through a route (eg. /docs)",
   "keywords": [
     "swagger", "php", "symfony", "swagger-ui", "api", "doc", "bundle"
   ],
