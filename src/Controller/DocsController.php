@@ -43,7 +43,9 @@ class DocsController extends Controller
         $swaggerUiRoute = sprintf('%s/bundles/harmbandstraswaggerui/swagger-ui/index.html', $request->getSchemeAndHttpHost());
         $swaggerFileRoute = $this->get('router')->generate('hb_swagger_ui_swagger_file', ['fileName' => $fileName]);
 
-        return $this->redirect($swaggerUiRoute . '?url=' . $swaggerFileRoute);
+        return $this->redirect(
+            sprintf('%s?url=%s/%s', $swaggerUiRoute, $swaggerFileRoute, $request->getSchemeAndHttpHost())
+        );
     }
 
     /**
