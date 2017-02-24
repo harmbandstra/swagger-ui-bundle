@@ -5,7 +5,7 @@ hb_swagger_ui_default:
 
 hb_swagger_ui_redirect:
   path:     /{fileName}
-  defaults: { _controller: HBSwaggerUiBundle:Docs:index}
+  defaults: { _controller: HBSwaggerUiBundle:Docs:redirect}
   methods: [GET]
 
 hb_swagger_ui_swagger_file:
