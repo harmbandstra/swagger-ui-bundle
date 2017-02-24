@@ -47,7 +47,7 @@ Specify the `directory` where your swagger files reside. You can access multiple
 If you specify a `default_swagger_file` the `/docs` endpoint will redirect to this file.
 
 ```yaml
-hb_swagger_ui:
+harm_bandstra_swagger_ui:
   directory: "%kernel.root_dir%/../docs/"
   default_file: "my_swagger_spec.json"
 ```

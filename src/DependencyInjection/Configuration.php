@@ -10,7 +10,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('hb_swagger_ui');
+        $rootNode = $treeBuilder->root('harm_bandstra_swagger_ui');
 
         $rootNode
             ->children()
