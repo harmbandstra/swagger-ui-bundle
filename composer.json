@@ -8,7 +8,7 @@
   "homepage": "https://github.com/harmbandstra/swagger-ui-bundle",
   "license": "GPL-3.0",
   "require": {
-    "php": ">=5.3.9",
+    "php": ">=5.4",
     "symfony/http-kernel": "~2.3|~3.0",
     "symfony/framework-bundle": "~2.3|~3.0",
     "symfony/yaml": "~2.3|~3.0",
