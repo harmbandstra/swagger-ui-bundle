@@ -44,7 +44,7 @@ class DocsController extends Controller
         $swaggerFileRoute = $this->get('router')->generate('hb_swagger_ui_swagger_file', ['fileName' => $fileName]);
 
         return $this->redirect(
-            sprintf('%s?url=%s/%s', $swaggerUiRoute, $swaggerFileRoute, $request->getSchemeAndHttpHost())
+            sprintf('%s?url=%s/%s', $swaggerUiRoute, $request->getSchemeAndHttpHost(), $swaggerFileRoute)
         );
     }
 
