@@ -34,8 +34,8 @@ class AppKernel extends Kernel
 Add the route where swagger-ui will be available in `routing.yml`:
 
 ```yml
-al_swagger_ui:
-    resource: @HarmBandstraSwaggerUiBundle/Resources/config/routing.yml
+hb_swagger_ui:
+    resource: '@HarmBandstraSwaggerUiBundle/Resources/config/routing.yml'
     prefix: /docs
 ```
 
