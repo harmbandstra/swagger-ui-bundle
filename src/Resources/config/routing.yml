@@ -1,14 +1,14 @@
 hb_swagger_ui_default:
   path:     /
-  defaults: { _controller: HarmBandstraSwaggerUiBundle:Docs:index}
+  defaults: { _controller: HBSwaggerUiBundle:Docs:index}
   methods: [GET]
 
 hb_swagger_ui_redirect:
   path:     /{fileName}
-  defaults: { _controller: HarmBandstraSwaggerUiBundle:Docs:index}
+  defaults: { _controller: HBSwaggerUiBundle:Docs:index}
   methods: [GET]
 
 hb_swagger_ui_swagger_file:
   path:     /file/{fileName}
-  defaults: { _controller: HarmBandstraSwaggerUiBundle:Docs:swaggerFile }
+  defaults: { _controller: HBSwaggerUiBundle:Docs:swaggerFile }
   methods: [GET]

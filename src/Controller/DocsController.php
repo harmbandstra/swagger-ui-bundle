@@ -18,8 +18,8 @@ class DocsController extends Controller
     public function indexAction()
     {
         return $this->forward(
-            'HarmBandstraSwaggerUiBundle:Docs:redirect',
-            ['fileName' => $this->getParameter('harm_bandstra_swagger_ui.default_file')]
+            'HBSwaggerUiBundle:Docs:redirect',
+            ['fileName' => $this->getParameter('hb_swagger_ui.default_file')]
         );
     }
 
@@ -31,16 +31,7 @@ class DocsController extends Controller
      */
     public function redirectAction(Request $request, $fileName)
     {
-        $docsDirectory = $this->getParameter('harm_bandstra_swagger_ui.directory');
-        if (!is_dir(realpath($docsDirectory))) {
-            throw new FileNotFoundException(sprintf('Directory [%s] not found.', $docsDirectory));
-        }
-
-        if (!is_file(realpath($docsDirectory . DIRECTORY_SEPARATOR . $fileName))) {
-            throw new FileNotFoundException(sprintf('File [%s] not found.', $docsDirectory));
-        }
-
-        $swaggerUiRoute = sprintf('%s/bundles/harmbandstraswaggerui/swagger-ui/index.html', $request->getSchemeAndHttpHost());
+        $swaggerUiRoute = sprintf('%s/bundles/hbswaggerui/swagger-ui/index.html', $request->getSchemeAndHttpHost());
         $swaggerFileRoute = $this->get('router')->generate('hb_swagger_ui_swagger_file', ['fileName' => $fileName]);
 
         return $this->redirect(
@@ -55,11 +46,7 @@ class DocsController extends Controller
      */
     public function swaggerFileAction($fileName)
     {
-        $filePath = realpath($this->getParameter('harm_bandstra_swagger_ui.directory') . DIRECTORY_SEPARATOR . pathinfo($fileName, PATHINFO_BASENAME));
-        if (!is_file($filePath)) {
-            throw new FileNotFoundException(sprintf('File [%s] not found.', $filePath));
-        }
-
+        $filePath = $this->getFilePath($fileName);
         $fileContents = file_get_contents($filePath);
 
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
@@ -70,5 +57,20 @@ class DocsController extends Controller
         }
 
         return new JsonResponse($fileContents, Response::HTTP_OK, [], true);
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return string
+     */
+    private function getFilePath($fileName)
+    {
+        $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . pathinfo($fileName, PATHINFO_BASENAME));
+        if (!is_file($filePath)) {
+            throw new FileNotFoundException(sprintf('File [%s] not found.', $filePath));
+        }
+
+        return $filePath;
     }
 }
