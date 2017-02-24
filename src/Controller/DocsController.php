@@ -70,7 +70,9 @@ class DocsController extends Controller
     {
         $validFiles = $this->getParameter('hb_swagger_ui.files');
         if (!in_array($fileName, $validFiles)) {
-            throw new \RuntimeException(sprintf('File [%s] not defined under [hb_swagger_ui.files] in config.yml.'));
+            throw new \RuntimeException(
+                sprintf('File [%s] not defined under [hb_swagger_ui.files] in config.yml.', $fileName)
+            );
         }
 
         $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
