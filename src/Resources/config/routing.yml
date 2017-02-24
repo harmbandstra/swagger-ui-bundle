@@ -1,0 +1,9 @@
+hb_swagger_ui_index:
+  path:     /
+  defaults: { _controller: HarmBandstraSwaggerUiBundle:Docs:index }
+  methods: [GET]
+
+hb_swagger_ui_swagger_file:
+  path:     /{fileName}
+  defaults: { _controller: HarmBandstraSwaggerUiBundle:Docs:swaggerFile }
+  methods: [GET]

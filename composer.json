@@ -1,0 +1,30 @@
+{
+  "name": "harmbandstra/swagger-api-doc",
+  "type": "library",
+  "description": "Swagger UI bundle",
+  "keywords": [
+    "swagger", "php", "symfony", "swagger-ui", "api", "doc", "bundle"
+  ],
+  "homepage": "https://github.com/harmbandstra/swagger-ui-bundle.git",
+  "license": "GPL-3.0",
+  "require": {
+    "php": ">=5.3.9",
+    "symfony/http-kernel": "~2.3|~3.0",
+    "symfony/framework-bundle": "~2.3|~3.0",
+    "symfony/yaml": "~2.3|~3.0",
+    "swagger-api/swagger-ui": "^2.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "HarmBandstra\\SwaggerUiBundle\\": "src"
+    }
+  },
+  "include-path": [
+    "src"
+  ],
+  "scripts": {
+    "post-update-cmd": [
+      "cp -R ./vendor/swagger-api/swagger-ui/dist ./vendor/harmbandstra/swagger-api-doc/public/swagger-ui"
+    ]
+  }
+}
