@@ -17,9 +17,11 @@ class DocsController extends Controller
      */
     public function indexAction()
     {
+        $validFiles = $this->getParameter('hb_swagger_ui.files');
+
         return $this->forward(
             'HBSwaggerUiBundle:Docs:redirect',
-            ['fileName' => $this->getParameter('hb_swagger_ui.default_file')]
+            ['fileName' => reset($validFiles)]
         );
     }
 
@@ -66,7 +68,12 @@ class DocsController extends Controller
      */
     private function getFilePath($fileName)
     {
-        $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . pathinfo($fileName, PATHINFO_BASENAME));
+        $validFiles = $this->getParameter('hb_swagger_ui.files');
+        if (!in_array($fileName, $validFiles)) {
+            throw new \RuntimeException(sprintf('File [%s] not defined under [hb_swagger_ui.files] in config.yml.'));
+        }
+
+        $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
         if (!is_file($filePath)) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $filePath));
         }

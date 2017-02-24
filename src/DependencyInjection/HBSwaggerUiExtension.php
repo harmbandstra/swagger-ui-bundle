@@ -12,6 +12,6 @@ class HBSwaggerUiExtension extends Extension
         $config = $this->processConfiguration(new Configuration(), $configs);
 
         $container->setParameter('hb_swagger_ui.directory', $config['directory']);
-        $container->setParameter('hb_swagger_ui.default_file', $config['default_file']);
+        $container->setParameter('hb_swagger_ui.files', $config['files']);
     }
 }
