@@ -12,6 +12,7 @@ build:
     tests:
         override:
             -
+                command: 'phpunit'
                 coverage:
                     file: 'build/clover.xml'
                     format: 'clover'
