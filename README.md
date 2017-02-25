@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/harmbandstra/swagger-ui-bundle.svg?branch=master)](https://travis-ci.org/harmbandstra/swagger-ui-bundle)
+
 # Swagger UI Bundle
 
 Expose swagger-ui inside your symfony project through a route (eg. /docs), just like [nelmio api docs](https://github.com/nelmio/NelmioApiDocBundle), without the need for node.
