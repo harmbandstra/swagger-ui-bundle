@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends Controller
@@ -48,9 +49,13 @@ class DocsController extends Controller
      */
     public function swaggerFileAction($fileName)
     {
-        $filePath = $this->getFilePath($fileName);
-        $fileContents = file_get_contents($filePath);
+        try {
+            $filePath = $this->getFilePath($fileName);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), Response::HTTP_NOT_FOUND);
+        }
 
+        $fileContents = file_get_contents($filePath);
         $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
         if ($extension === 'yml' || $extension === 'yaml') {
             $fileContents = Yaml::parse(file_get_contents($filePath));
@@ -77,7 +82,7 @@ class DocsController extends Controller
 
         $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
         if (!is_file($filePath)) {
-            throw new FileNotFoundException(sprintf('File [%s] not found.', $filePath));
+            throw new FileNotFoundException(sprintf('File [%s] not found.', $fileName));
         }
 
         return $filePath;

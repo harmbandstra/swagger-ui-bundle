@@ -14,6 +14,11 @@
     "symfony/yaml": "~2.3|~3.0",
     "swagger-api/swagger-ui": "^2.2"
   },
+  "require-dev": {
+    "symfony/browser-kit": "~2.3|~3.0",
+    "symfony/phpunit-bridge": "~2.3|~3.0",
+    "phpunit/phpunit": "^5.7"
+  },
   "autoload": {
     "psr-4": {
       "HarmBandstra\\SwaggerUiBundle\\": "src"

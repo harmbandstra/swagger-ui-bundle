@@ -1,0 +1,17 @@
+framework:
+  test: ~
+  secret: test
+  session:
+    storage_id: session.storage.mock_file
+  profiler:
+    collect: false
+  router:
+    resource: "%kernel.root_dir%/Resources/config/routing.yml"
+    strict_requirements: true
+
+hb_swagger_ui:
+  directory: "%kernel.root_dir%/Resources/docs/"
+  files:
+    - "petstore.json"
+    - "petstore.yaml"
+    - "not_found.yaml"
