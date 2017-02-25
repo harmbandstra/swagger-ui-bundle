@@ -17,13 +17,22 @@ class DocsControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_MOVED_PERMANENTLY, $response->getStatusCode());
     }
 
+    public function testIndexWithTrailingSlash()
+    {
+        $client = static::createClient();
+        $client->request('GET', '/docs/');
+
+        $response = $client->getResponse();
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
+    }
+
     public function testRedirectWithValidFile()
     {
         $client = static::createClient();
-        $client->request('GET', '/docs/file/petstore.json');
+        $client->request('GET', '/docs/petstore.json');
 
         $response = $client->getResponse();
-        $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
     }
 
     public function testIfSwaggerFileReturnsPetstoreJson()

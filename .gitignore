@@ -1,4 +1,5 @@
 /.idea/
+/build/
 /var/
 /vendor/
 composer.lock
