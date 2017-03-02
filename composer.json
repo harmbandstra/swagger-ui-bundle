@@ -26,5 +26,13 @@
   },
   "include-path": [
     "src"
-  ]
+  ],
+  "scripts": {
+    "post-install-cmd": [
+      "cp -r vendor/swagger-api/swagger-ui/dist/ src/Resources/public/"
+    ],
+    "post-update-cmd": [
+      "cp -r vendor/swagger-api/swagger-ui/dist/ src/Resources/public/"
+    ]
+  }
 }
