@@ -21,6 +21,7 @@ class DocsController extends Controller
     public function indexAction(Request $request)
     {
         if (!$request->get('url')) {
+            // if there is no ?url=... parameter, redirect to the default one
             $specFiles = $this->getParameter('hb_swagger_ui.files');
 
             $defaultSpecFile = reset($specFiles);
@@ -29,8 +30,10 @@ class DocsController extends Controller
         }
 
         try {
+            // check if public/index.html exists and get its path if it does
             $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
         } catch (\InvalidArgumentException $exception) {
+            // index.html doesn't exist, let's update public/ with swagger-ui files
             $publicDir = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/');
 
             $swaggerDistDir = $this->getParameter('kernel.root_dir').'/../vendor/swagger-api/swagger-ui/dist';
@@ -38,6 +41,7 @@ class DocsController extends Controller
             // update public dir
             $this->get('filesystem')->mirror($swaggerDistDir, $publicDir);
 
+            // the public/index.html file should exists now, let's try to get its path again
             $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
         }
 
@@ -54,11 +58,12 @@ class DocsController extends Controller
     {
         $validFiles = $this->getParameter('hb_swagger_ui.files');
 
-        // redirect to swagger file if that's what we're looking fore
+        // redirect to swagger file if that's what we're looking for
         if (in_array($fileName, $validFiles, true)) {
             return $this->redirect($this->getRedirectUrlToSpec($request, $fileName));
         }
 
+        // redirect to the assets dir so that relative links work
         return $this->redirect('/bundles/hbswaggerui/'.$fileName);
     }
 
