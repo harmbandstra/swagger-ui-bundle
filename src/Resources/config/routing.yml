@@ -3,12 +3,16 @@ hb_swagger_ui_default:
   defaults: { _controller: HBSwaggerUiBundle:Docs:index}
   methods: [GET]
 
-hb_swagger_ui_redirect:
-  path:     /{fileName}
-  defaults: { _controller: HBSwaggerUiBundle:Docs:redirect}
-  methods: [GET]
-
 hb_swagger_ui_swagger_file:
   path:     /file/{fileName}
+  requirements:
+    fileName: .+
   defaults: { _controller: HBSwaggerUiBundle:Docs:swaggerFile }
+  methods: [GET]
+
+hb_swagger_ui_redirect:
+  path:     /{fileName}
+  requirements:
+    fileName: .+
+  defaults: { _controller: HBSwaggerUiBundle:Docs:redirect}
   methods: [GET]
