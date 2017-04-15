@@ -11,31 +11,35 @@ After installation and configuration, just start your local webserver, and navig
 
 ## Installation
 
-Install with composer:
+Install with composer in dev environment:
 
-`$ composer require harmbandstra/swagger-ui-bundle`
+`$ composer require harmbandstra/swagger-ui-bundle --dev`
 
 Enable bundle in `app/AppKernel.php`:
 
 ```php
 <?php
 
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\Config\Loader\LoaderInterface;
-
 class AppKernel extends Kernel
 {
     public function registerBundles()
     {
-        $bundles = [
-            ...
-            new HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle(),
+        // ...
+
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
+            // ...
+            $bundles[] = new HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle();
+        }
+
+        // ...
+    }
+}
 ```
 
-Add the route where swagger-ui will be available in `routing.yml`:
+Add the route where swagger-ui will be available in `routing_dev.yml`:
 
 ```yml
-hb_swagger_ui:
+_swagger-ui:
     resource: '@HBSwaggerUiBundle/Resources/config/routing.yml'
     prefix: /docs
 ```
@@ -45,12 +49,15 @@ hb_swagger_ui:
 In your `config.yml`, link to the swagger spec.
 
 Specify the `directory` where your swagger files reside. You can access multiple files through the endpoint like `/docs/my_swagger_spec.json`.
-Under `files` you specify which files should be exposed. The first file in the array will be the file the `/docs` endpoint will redirect to.
+Under `files` you specify which files should be exposed.
+
+The first file in the array is the default one and it will be the file the `/docs` endpoint will redirect to. For this file you have the option to specify an absolute path to the .json spec file ("/_swagger/swagger.json") or a URL ("https://example.com/swagger.json").
 
 ```yaml
 hb_swagger_ui:
   directory: "%kernel.root_dir%/../docs/"
   files:
+    - "/_swagger/swagger.json"
     - "my_swagger_spec.yml"
     - "my_other_swagger_spec.json"
 ```
