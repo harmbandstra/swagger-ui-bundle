@@ -28,7 +28,18 @@ class DocsController extends Controller
             return $this->redirect($this->getRedirectUrlToSpec($request, $defaultSpecFile));
         }
 
-        $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
+        try {
+            $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
+        } catch (\InvalidArgumentException $exception) {
+            $publicDir = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/');
+
+            $swaggerDistDir = $this->getParameter('kernel.root_dir').'/../vendor/swagger-api/swagger-ui/dist';
+
+            // update public dir
+            $this->get('filesystem')->mirror($swaggerDistDir, $publicDir);
+
+            $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
+        }
 
         return new Response(file_get_contents($indexFilePath));
     }
