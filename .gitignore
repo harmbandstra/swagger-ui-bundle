@@ -3,3 +3,4 @@
 /var/
 /vendor/
 composer.lock
+/src/Resources/public/
