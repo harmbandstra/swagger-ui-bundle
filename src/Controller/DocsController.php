@@ -130,14 +130,11 @@ class DocsController extends Controller
      * @return string
      */
     private function getRedirectUrlToSpec(Request $request, $fileName) {
-        if (strpos($fileName, '/') === 0) {
-            // if absolute path, point to it
-            $specUrl = $request->getUriForPath($fileName);
-        } elseif (preg_match('#http[s]?://#', $fileName)) {
-            // if URL use it raw
+        if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
+            // if absolute path or URL use it raw
             $specUrl = $fileName;
         } else {
-            $specUrl = $this->generateUrl('hb_swagger_ui_swagger_file', ['fileName' => $fileName], UrlGeneratorInterface::ABSOLUTE_URL);
+            $specUrl = $this->generateUrl('hb_swagger_ui_swagger_file', ['fileName' => $fileName], UrlGeneratorInterface::ABSOLUTE_PATH);
         }
 
         return $this->generateUrl('hb_swagger_ui_default', ['url' => $specUrl]);
