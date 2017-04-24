@@ -26,7 +26,7 @@ class DocsController extends Controller
 
             $defaultSpecFile = reset($specFiles);
 
-            return $this->redirect($this->getRedirectUrlToSpec($request, $defaultSpecFile));
+            return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
 
         try {
@@ -36,7 +36,7 @@ class DocsController extends Controller
             // index.html doesn't exist, let's update public/ with swagger-ui files
             $publicDir = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/');
 
-            $swaggerDistDir = $this->getParameter('kernel.root_dir').'/../vendor/swagger-api/swagger-ui/dist';
+            $swaggerDistDir = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist';
 
             // update public dir
             $this->get('filesystem')->mirror($swaggerDistDir, $publicDir);
@@ -60,11 +60,11 @@ class DocsController extends Controller
 
         // redirect to swagger file if that's what we're looking for
         if (in_array($fileName, $validFiles, true)) {
-            return $this->redirect($this->getRedirectUrlToSpec($request, $fileName));
+            return $this->redirect($this->getRedirectUrlToSpec($fileName));
         }
 
         // redirect to the assets dir so that relative links work
-        return $this->redirect('/bundles/hbswaggerui/'.$fileName);
+        return $this->redirect('/bundles/hbswaggerui/' . $fileName);
     }
 
     /**
@@ -124,17 +124,21 @@ class DocsController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @param $fileName
+     * @param string $fileName
      *
      * @return string
      */
-    private function getRedirectUrlToSpec(Request $request, $fileName) {
+    private function getRedirectUrlToSpec($fileName)
+    {
         if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
             // if absolute path or URL use it raw
             $specUrl = $fileName;
         } else {
-            $specUrl = $this->generateUrl('hb_swagger_ui_swagger_file', ['fileName' => $fileName], UrlGeneratorInterface::ABSOLUTE_PATH);
+            $specUrl = $this->generateUrl(
+                'hb_swagger_ui_swagger_file',
+                ['fileName' => $fileName],
+                UrlGeneratorInterface::ABSOLUTE_PATH
+            );
         }
 
         return $this->generateUrl('hb_swagger_ui_default', ['url' => $specUrl]);
