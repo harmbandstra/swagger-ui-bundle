@@ -29,21 +29,7 @@ class DocsController extends Controller
             return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
 
-        try {
-            // check if public/index.html exists and get its path if it does
-            $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
-        } catch (\InvalidArgumentException $exception) {
-            // index.html doesn't exist, let's update public/ with swagger-ui files
-            $publicDir = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/');
-
-            $swaggerDistDir = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist';
-
-            // update public dir
-            $this->get('filesystem')->mirror($swaggerDistDir, $publicDir);
-
-            // the public/index.html file should exists now, let's try to get its path again
-            $indexFilePath = $this->get('file_locator')->locate('@HBSwaggerUiBundle/Resources/public/index.html');
-        }
+        $indexFilePath = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist/index.html';
 
         return new Response(file_get_contents($indexFilePath));
     }
