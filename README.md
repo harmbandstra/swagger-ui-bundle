@@ -15,6 +15,20 @@ Install with composer in dev environment:
 
 `$ composer require harmbandstra/swagger-ui-bundle --dev`
 
+Make sure swagger-ui assets are copied to `web/bundles` by adding the [`HarmBandstra\SwaggerUiBundle\Composer\ScriptHandler::linkAssets`](src/Composer/ScriptHandler#L13) composer hook **before** the [`Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::installAssets`](https://github.com/sensiolabs/SensioDistributionBundle/blob/master/Composer/ScriptHandler.php#L158) hook in your `composer.json`. 
+
+```json
+{
+  "scripts": {
+    "symfony-scripts": [
+        "HarmBandstra\\SwaggerUiBundle\\Composer\\ScriptHandler::linkAssets",
+        "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets"
+    ],
+    "post-install-cmd": ["@symfony-scripts"],
+    "post-update-cmd": ["@symfony-scripts"]
+}
+```
+
 Enable bundle in `app/AppKernel.php`:
 
 ```php
