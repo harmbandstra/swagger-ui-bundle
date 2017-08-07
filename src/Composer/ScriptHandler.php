@@ -13,7 +13,7 @@ class ScriptHandler
     public static function linkAssets(Event $event)
     {
         $filesystem = new Filesystem();
-        $vendorDir = __DIR__.'/../../../..';
+        $vendorDir = __DIR__ . '/../../../..';
 
         $source = sprintf('%s/swagger-api/swagger-ui/dist', $vendorDir);
         $target = sprintf('%s/harmbandstra/swagger-ui-bundle/src/Resources/public', $vendorDir);
