@@ -22,14 +22,14 @@ class DocsController extends Controller
     {
         if (!$request->get('url')) {
             // if there is no ?url=... parameter, redirect to the default one
-            $specFiles = $this->container->getParameter('hb_swagger_ui.files');
+            $specFiles = $this->getParameter('hb_swagger_ui.files');
 
             $defaultSpecFile = reset($specFiles);
 
             return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
 
-        $indexFilePath = $this->container->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist/index.html';
+        $indexFilePath = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist/index.html';
 
         return new Response(file_get_contents($indexFilePath));
     }
@@ -42,7 +42,7 @@ class DocsController extends Controller
      */
     public function redirectAction(Request $request, $fileName)
     {
-        $validFiles = $this->container->getParameter('hb_swagger_ui.files');
+        $validFiles = $this->getParameter('hb_swagger_ui.files');
 
         // redirect to swagger file if that's what we're looking for
         if (in_array($fileName, $validFiles, true)) {
@@ -89,7 +89,7 @@ class DocsController extends Controller
      */
     private function getFilePath($fileName = '')
     {
-        $validFiles = $this->container->getParameter('hb_swagger_ui.files');
+        $validFiles = $this->getParameter('hb_swagger_ui.files');
 
         if ($fileName !== '' && !in_array($fileName, $validFiles)) {
             throw new \RuntimeException(
@@ -97,7 +97,7 @@ class DocsController extends Controller
             );
         }
 
-        $directory = $this->container->getParameter('hb_swagger_ui.directory');
+        $directory = $this->getParameter('hb_swagger_ui.directory');
 
         if ($directory === '') {
             throw new \RuntimeException(
@@ -105,7 +105,7 @@ class DocsController extends Controller
             );
         }
 
-        $filePath = realpath($this->container->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
+        $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
         if (!is_file($filePath)) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $fileName));
         }
