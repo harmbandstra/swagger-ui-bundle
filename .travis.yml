@@ -7,4 +7,4 @@ php:
 
 install: composer update
 
-script: vendor/bin/phpunit --coverage-text
+script: vendor/bin/simple-phpunit --coverage-text
