@@ -19,7 +19,7 @@ Install with composer in dev environment:
 
 `$ composer require harmbandstra/swagger-ui-bundle --dev`
 
-Make sure swagger-ui assets are copied to `web/bundles` by adding the [`HarmBandstra\SwaggerUiBundle\Composer\ScriptHandler::linkAssets`](src/Composer/ScriptHandler#L13) composer hook **before** the [`Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::installAssets`](https://github.com/sensiolabs/SensioDistributionBundle/blob/master/Composer/ScriptHandler.php#L158) hook in your `composer.json`. 
+Make sure swagger-ui assets are copied to `web/bundles` by adding the [`HarmBandstra\SwaggerUiBundle\Composer\ScriptHandler::linkAssets`](src/Composer/ScriptHandler#L13) composer hook **before** the [`Sensio\Bundle\DistributionBundle\Composer\ScriptHandler::installAssets`](https://github.com/sensiolabs/SensioDistributionBundle/blob/master/Composer/ScriptHandler.php#L158) hook in your `composer.json`.
 
 ```json
 {
@@ -33,7 +33,7 @@ Make sure swagger-ui assets are copied to `web/bundles` by adding the [`HarmBand
 }
 ```
 
-Enable bundle in `app/AppKernel.php`:
+Enable bundle in `app/AppKernel.php`(Symfony 3):
 
 ```php
 <?php
@@ -54,6 +54,15 @@ class AppKernel extends Kernel
 }
 ```
 
+Enable bundle in `config/bundles.php`(Symfony 4):
+```php
+<?php
+
+return [
+    // ...
+    HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle::class => ['dev' => true]
+];
+```
 Add the route where swagger-ui will be available in `routing_dev.yml`:
 
 ```yml
@@ -62,7 +71,7 @@ _swagger-ui:
     prefix: /docs
 ```
 
-## Configuration
+## Configuration (Symfony 3)
 
 In your `config.yml`, link to the swagger spec.
 
@@ -79,3 +88,7 @@ hb_swagger_ui:
     - "my_swagger_spec.yml"
     - "my_other_swagger_spec.json"
 ```
+
+## Configuration (Symfony 4)
+
+Create a file `hb_swagger_ui.yaml` `in config/packages`. Follow the rest of the steps for configuration in Symfony 3.
