@@ -29,7 +29,7 @@ class DocsController extends Controller
             return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
 
-        $indexFilePath = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist/index.html';
+        $indexFilePath = $this->getParameter('kernel.project_dir') . '/vendor/swagger-api/swagger-ui/dist/index.html';
 
         return new Response(file_get_contents($indexFilePath));
     }
