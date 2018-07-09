@@ -12,8 +12,8 @@ After installation and configuration, just start your local webserver, and navig
 ## Compatibility
 
 If you need symfony 2.3 - 2.6 support, use version 1.x.
-If you need symfony 2.7 - 3.3 support, or php 5.x use version 2.x.
-For symfony 3.3 - 4.x and PHP > 7.0 use version 3.x.
+If you need symfony 2.7 - 4.x support, or php 5.x use version 2.x.
+For symfony 3.3 and later with PHP > 7.0 use version 3.x.
 
 ## Installation
 
