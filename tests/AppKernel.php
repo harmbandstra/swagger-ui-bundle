@@ -1,6 +1,6 @@
 <?php
 
-namespace HarmBandstra\SwaggerUIBundle\Tests;
+namespace HarmBandstra\SwaggerUiBundle\Tests;
 
 use HarmBandstra\SwaggerUiBundle\HBSwaggerUiBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
