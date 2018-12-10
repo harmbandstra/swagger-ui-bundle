@@ -9,9 +9,20 @@ framework:
     resource: "%kernel.root_dir%/Resources/config/routing.yml"
     strict_requirements: true
 
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  HarmBandstra\SwaggerUiBundle\Controller\:
+    resource: '../../../src/Controller'
+    public: true
+    tags: ['controller.service_arguments']
+
 hb_swagger_ui:
   directory: "%kernel.root_dir%/Resources/docs/"
   files:
-    - "petstore.json"
-    - "petstore.yaml"
-    - "not_found.yaml"
+      - "petstore.json"
+      - "petstore.yaml"
+      - "not_found.yaml"

@@ -9,15 +9,16 @@
   "license": "GPL-3.0-or-later",
   "require": {
     "php": ">=7.0",
+    "ext-json": "*",
     "composer/composer": "^1.0",
-    "symfony/http-kernel": "~3.3|~4.0",
-    "symfony/framework-bundle": "~3.3|~4.0",
-    "symfony/yaml": "~3.3|~4.0",
+    "symfony/http-kernel": "~4.0",
+    "symfony/framework-bundle": "~4.0",
+    "symfony/yaml": "~4.0",
     "swagger-api/swagger-ui": "^3.3|~4.0"
   },
   "require-dev": {
-    "symfony/browser-kit": "~3.3|~4.0",
-    "symfony/phpunit-bridge": "~3.3|~4.0"
+    "symfony/browser-kit": "~4.0",
+    "symfony/phpunit-bridge": "~4.0"
   },
   "autoload": {
     "psr-4": {

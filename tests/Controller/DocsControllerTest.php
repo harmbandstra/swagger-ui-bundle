@@ -1,6 +1,6 @@
 <?php
 
-namespace HarmBandstra\SwaggerUIBundle\Tests\Controller;
+namespace HarmBandstra\SwaggerUiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
