@@ -16,7 +16,7 @@
     "symfony/http-kernel": "~4.0",
     "symfony/routing": "~4.0",
     "symfony/yaml": "~4.0",
-    "swagger-api/swagger-ui": "^3.0",
+    "swagger-api/swagger-ui": "^3.0"
   },
   "require-dev": {
     "symfony/browser-kit": "~4.0",
