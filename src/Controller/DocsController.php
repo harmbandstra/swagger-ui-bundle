@@ -13,6 +13,22 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends AbstractController
 {
+    /** @var string */
+    private $projectDir;
+
+    /** @var array */
+    private $swaggerFiles;
+
+    /** @var string */
+    private $directory;
+
+    public function __construct($projectDir, $swaggerFiles, $directory)
+    {
+        $this->projectDir = $projectDir;
+        $this->swaggerFiles = $swaggerFiles;
+        $this->directory = $directory;
+    }
+
     /**
      * @param Request $request
      *
@@ -22,30 +38,25 @@ class DocsController extends AbstractController
     {
         if (!$request->get('url')) {
             // if there is no ?url=... parameter, redirect to the default one
-            $specFiles = $this->getParameter('hb_swagger_ui.files');
-
-            $defaultSpecFile = reset($specFiles);
+            $defaultSpecFile = reset($this->swaggerFiles);
 
             return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
 
-        $indexFilePath = $this->getParameter('kernel.project_dir') . '/vendor/swagger-api/swagger-ui/dist/index.html';
+        $indexFilePath = $this->projectDir . '/vendor/swagger-api/swagger-ui/dist/index.html';
 
         return new Response(file_get_contents($indexFilePath));
     }
 
     /**
-     * @param Request $request
      * @param string $fileName
      *
      * @return RedirectResponse
      */
-    public function redirectAction(Request $request, $fileName)
+    public function redirectAction($fileName)
     {
-        $validFiles = $this->getParameter('hb_swagger_ui.files');
-
         // redirect to swagger file if that's what we're looking for
-        if (in_array($fileName, $validFiles, true)) {
+        if (in_array($fileName, $this->swaggerFiles, true)) {
             return $this->redirect($this->getRedirectUrlToSpec($fileName));
         }
 
@@ -89,23 +100,19 @@ class DocsController extends AbstractController
      */
     private function getFilePath($fileName = '')
     {
-        $validFiles = $this->getParameter('hb_swagger_ui.files');
-
-        if ($fileName !== '' && !in_array($fileName, $validFiles)) {
+        if ($fileName !== '' && !in_array($fileName, $this->swaggerFiles)) {
             throw new \RuntimeException(
                 sprintf('File [%s] not defined under [hb_swagger_ui.files] in config.yml.', $fileName)
             );
         }
 
-        $directory = $this->getParameter('hb_swagger_ui.directory');
-
-        if ($directory === '') {
+        if ($this->directory === '') {
             throw new \RuntimeException(
                 'Directory [hb_swagger_ui.directory] not defined or empty in config.yml.'
             );
         }
 
-        $filePath = realpath($this->getParameter('hb_swagger_ui.directory') . DIRECTORY_SEPARATOR . $fileName);
+        $filePath = realpath($this->directory . DIRECTORY_SEPARATOR . $fileName);
         if (!is_file($filePath)) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $fileName));
         }

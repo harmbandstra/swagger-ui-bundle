@@ -1,0 +1,10 @@
+services:
+  HarmBandstra\SwaggerUiBundle\Controller\DocsController:
+    autowire: true
+    autoconfigure: true
+    public: true
+    tags: ['controller.service_arguments']
+    bind:
+      $projectDir: '%kernel.project_dir%'
+      $swaggerFiles: '%hb_swagger_ui.files%'
+      $directory: '%hb_swagger_ui.directory%'
