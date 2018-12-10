@@ -16,6 +16,8 @@ After installation and configuration, just start your local webserver, and navig
 * For symfony 3.3 and later with PHP > 7.0 use version 3.x.
 * For symfony 4.0 and later with PHP => 7.1.3 use version 4.x.
 
+**NOTE** Since version 3.1, support for symfony 4 on the 3.x branch has been dropped. Use the 4.x branch instead.
+
 ## Installation
 
 Install with composer in dev environment:
