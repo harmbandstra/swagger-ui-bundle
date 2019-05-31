@@ -8,7 +8,7 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          stopOnFailure="true"
-         colors="never"
+         colors="false"
          bootstrap="vendor/autoload.php"
 >
     <php>
@@ -34,6 +34,6 @@
     </filter>
     <logging>
         <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
-        <log type="coverage-clover" target="./build/clover.xml" logIncompleteSkipped="false"/>
+        <log type="coverage-clover" target="./build/clover.xml"/>
     </logging>
 </phpunit>

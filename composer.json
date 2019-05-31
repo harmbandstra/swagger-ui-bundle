@@ -21,7 +21,8 @@
   "require-dev": {
     "symfony/browser-kit": "~4.0",
     "symfony/phpunit-bridge": "~4.0",
-    "composer/composer": "^1.8"
+    "composer/composer": "^1.8",
+    "phpspec/prophecy": "^1.8"
   },
   "autoload": {
     "psr-4": {
