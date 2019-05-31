@@ -1,6 +1,6 @@
 {
   "name": "harmbandstra/swagger-ui-bundle",
-  "type": "library",
+  "type": "symfony-bundle",
   "description": "Exposes swagger UI inside your Symfony project through a route (eg. /docs)",
   "keywords": [
     "swagger", "php", "symfony", "swagger-ui", "api", "doc", "bundle"
@@ -20,7 +20,8 @@
   },
   "require-dev": {
     "symfony/browser-kit": "~4.0",
-    "symfony/phpunit-bridge": "~4.0"
+    "symfony/phpunit-bridge": "~4.0",
+    "composer/composer": "^1.8"
   },
   "autoload": {
     "psr-4": {
