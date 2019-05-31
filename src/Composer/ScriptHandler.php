@@ -19,10 +19,10 @@ class ScriptHandler
         $source = sprintf('%s/swagger-api/swagger-ui/dist', $vendorDir);
         $target = sprintf('%s/harmbandstra/swagger-ui-bundle/src/Resources/public', $vendorDir);
 
-        $exclude = new Finder();
-        $exclude->files()->in($source)->notName('*.map');
+        $filesIterator = new Finder();
+        $filesIterator->files()->in($source)->notName('*.map');
 
-        $filesystem->mirror($source, $target, $exclude, ['override' => true]);
+        $filesystem->mirror($source, $target, $filesIterator, ['override' => true]);
 
         $event->getIO()->write('Linked SwaggerUI assets.');
     }

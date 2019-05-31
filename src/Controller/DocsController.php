@@ -43,9 +43,12 @@ class DocsController extends AbstractController
             return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
 
-        $indexFilePath = $this->projectDir . '/vendor/swagger-api/swagger-ui/dist/index.html';
+        $contents = @file_get_contents(__DIR__ . '/../Resources/public/index.html');
+        if ($contents === false) {
+            throw new \RuntimeException('Unable to load [Resources/public/index.html]. Did [ScriptHandler::linkAssets] run correctly?');
+        }
 
-        return new Response(file_get_contents($indexFilePath));
+        return new Response($contents);
     }
 
     /**
