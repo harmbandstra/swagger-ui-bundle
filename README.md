@@ -38,6 +38,40 @@ Make sure swagger-ui assets are copied to `web/bundles` by adding the [`HarmBand
 }
 ```
 
+If the `scripts` section in composer.json looks like this (symfony 4):
+```json
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+```
+
+Add the composer hook like this:
+```json
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "HarmBandstra\\SwaggerUiBundle\\Composer\\ScriptHandler::linkAssets",
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "HarmBandstra\\SwaggerUiBundle\\Composer\\ScriptHandler::linkAssets",
+            "@auto-scripts"
+        ]
+    },
+```
+
 Enable bundle in `app/AppKernel.php`(Symfony 3):
 
 ```php
