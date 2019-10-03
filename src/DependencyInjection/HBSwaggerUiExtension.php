@@ -15,6 +15,7 @@ class HBSwaggerUiExtension extends Extension
 
         $container->setParameter('hb_swagger_ui.directory', $config['directory']);
         $container->setParameter('hb_swagger_ui.files', $config['files']);
+        $container->setParameter('hb_swagger_ui.assets', $config['assets']);
 
         $loader = new YamlFileLoader(
             $container,
