@@ -1,18 +1,22 @@
 filter:
     excluded_paths:
-        - 'tests/*'
+        - tests/*
+
 checks:
     php: true
+
 coding_style:
     php:
         spaces:
             around_operators:
                 concatenation: true
 build:
+    environment:
+        variables:
+            SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT: '1'
     tests:
         override:
-            -
-                command: 'SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT=1 vendor/bin/simple-phpunit --coverage-clover=clover.xml'
-                coverage:
-                    file: 'clover.xml'
-                    format: 'clover'
+            - command: vendor/bin/simple-phpunit --coverage-clover=clover.xml
+              coverage:
+                  file: clover.xml
+                  format: clover
