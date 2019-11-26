@@ -12,7 +12,7 @@ build:
     tests:
         override:
             -
-                command: 'vendor/bin/simple-phpunit --coverage-clover=clover.xml'
+                command: 'SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT=1 vendor/bin/simple-phpunit --coverage-clover=clover.xml'
                 coverage:
                     file: 'clover.xml'
                     format: 'clover'
