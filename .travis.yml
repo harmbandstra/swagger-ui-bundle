@@ -6,4 +6,4 @@ php:
 
 install: composer update
 
-script: vendor/bin/simple-phpunit --coverage-text
+script: SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT=1 vendor/bin/simple-phpunit --coverage-text
