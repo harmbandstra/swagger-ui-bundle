@@ -5,3 +5,4 @@
 composer.lock
 /src/Resources/public/*
 !/src/Resources/public/.gitkeep
+.phpunit.result.cache
