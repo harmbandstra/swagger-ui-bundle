@@ -45,7 +45,7 @@ class ScriptHandlerTest extends TestCase
 
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $filesystem = new Filesystem();
         $filesystem->remove(sprintf('%s/../../vendor/harmbandstra', __DIR__));
