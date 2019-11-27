@@ -1,10 +1,9 @@
 language: php
 
 php:
-  - '7.1'
   - '7.2'
   - '7.3'
 
 install: composer update
 
-script: SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT=1 vendor/bin/simple-phpunit --coverage-text
+script: vendor/bin/phpunit --coverage-text
