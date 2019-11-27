@@ -14,14 +14,12 @@ build:
     environment:
         php:
             version: 7.2
-        variables:
-            SYMFONY_PHPUNIT_REMOVE_RETURN_TYPEHINT: '1'
 
     nodes:
         tests-with-coverage:
             tests:
                 override:
-                    - command: vendor/bin/simple-phpunit --coverage-clover=clover.xml
+                    - command: ./vendor/bin/phpunit --coverage-clover=clover.xml
                       coverage:
                           file: clover.xml
                           format: clover
