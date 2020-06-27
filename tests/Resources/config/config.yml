@@ -6,11 +6,11 @@ framework:
   profiler:
     collect: false
   router:
-    resource: "%kernel.root_dir%/Resources/config/routing.yml"
+    resource: "%kernel.project_dir%/tests/Resources/config/routing.yml"
     strict_requirements: true
 
 hb_swagger_ui:
-  directory: "%kernel.root_dir%/Resources/docs/"
+  directory: "%kernel.project_dir%/tests/Resources/docs/"
   files:
       - "petstore.json"
       - "petstore.yaml"

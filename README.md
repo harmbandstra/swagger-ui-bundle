@@ -128,6 +128,13 @@ hb_swagger_ui:
     - "my_other_swagger_spec.json"
 ```
 
+Optional: If you serve your project from a different directory than the vhost root, you can overwrite the asset URL path with the `assetUrlPath` configuration. Be sure to add a leading and trailing slash.
+
+```yaml
+hb_swagger_ui:
+  assetUrlPath: '/my-vhost-sub-directory/bundles/hbswaggerui/'
+```
+
 ## Configuration (Symfony 4)
 
 Create a file `hb_swagger_ui.yaml` `in config/packages`. Follow the rest of the steps for configuration in Symfony 3.

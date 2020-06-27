@@ -22,11 +22,15 @@ class DocsController extends AbstractController
     /** @var string */
     private $directory;
 
-    public function __construct($projectDir, $swaggerFiles, $directory)
+    /** @var string */
+    private $assetUrlPath;
+
+    public function __construct($projectDir, $swaggerFiles, $directory, $assetUrlPath)
     {
         $this->projectDir = $projectDir;
         $this->swaggerFiles = $swaggerFiles;
         $this->directory = $directory;
+        $this->assetUrlPath = $assetUrlPath;
     }
 
     /**
@@ -64,7 +68,7 @@ class DocsController extends AbstractController
         }
 
         // redirect to the assets dir so that relative links work
-        return $this->redirect('/bundles/hbswaggerui/' . $fileName);
+        return $this->redirect($this->assetUrlPath . $fileName);
     }
 
     /**
