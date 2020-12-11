@@ -9,10 +9,13 @@ use Composer\Script\Event;
 use HarmBandstra\SwaggerUiBundle\Composer\ScriptHandler;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandlerTest extends TestCase
 {
+    use ProphecyTrait;
+
     public function testIfSwaggerAssetsAreCopiedCorrectly()
     {
         $vendorDirectory = __DIR__ . '/../../vendor';
