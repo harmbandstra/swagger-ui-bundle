@@ -22,7 +22,7 @@
     "symfony/browser-kit": "^4.0|^5.0",
     "composer/composer": "^1.8",
     "phpspec/prophecy": "^1.8",
-    "phpunit/phpunit": "^8.4"
+    "phpunit/phpunit": "^9"
   },
   "autoload": {
     "psr-4": {
