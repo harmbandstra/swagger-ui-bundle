@@ -13,6 +13,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends Controller
 {
+    private const SWAGGER_UI_START = 'Begin Swagger UI call region';
+    private const SWAGGER_UI_END = 'End Swagger UI call region';
+
     /**
      * @param Request $request
      *
@@ -30,6 +33,12 @@ class DocsController extends Controller
         }
 
         $indexFilePath = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist/index.html';
+
+        $configFile = $this->getParameter('hb_swagger_ui.configFile');
+
+        if ($configFile) {
+            $contents = $this->replaceSwaggerUiCallRegion($contents);
+        }
 
         return new Response(file_get_contents($indexFilePath));
     }
@@ -80,6 +89,42 @@ class DocsController extends Controller
             Response::HTTP_OK,
             ['Content-Type' => 'application/json']
         );
+    }
+
+    /**
+     * @param $contents
+     *
+     * @return string
+     */
+    private function replaceSwaggerUiCallRegion($contents)
+    {
+        $finalContents = [];
+        $isReplacement = false;
+        $configFile = $this->getParameter('hb_swagger_ui.configFile');
+
+        foreach (explode("\n", $contents) as $line) {
+            if (!$isReplacement) {
+                if (preg_match('!' . self::SWAGGER_UI_START . '!', $line)) {
+                    $isReplacement = true;
+
+                    $finalContents[] = 'const ui = SwaggerUIBundle({configUrl: "' . $configFile . '",
+                     "presets": [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIStandalonePreset
+                    ],
+                    "layout": "StandaloneLayout"
+                });';
+
+                    continue;
+                }
+
+                $finalContents[] = $line;
+            } elseif (preg_match('!' . self::SWAGGER_UI_END . '!', $line)) {
+                $isReplacement = false;
+            }
+        }
+
+        return implode("\n", $finalContents);
     }
 
     /**

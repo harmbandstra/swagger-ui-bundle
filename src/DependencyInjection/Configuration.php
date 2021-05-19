@@ -15,6 +15,7 @@ class Configuration implements ConfigurationInterface
         $rootNode
             ->children()
                 ->scalarNode('directory')->defaultValue('')->end()
+                ->scalarNode('configFile')->defaultNull()->end()
                 ->arrayNode('files')->isRequired()->prototype('scalar')->end()
             ->end()
         ;
