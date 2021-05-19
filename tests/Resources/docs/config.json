@@ -1,0 +1,10 @@
+{
+  "dom_id": "#swagger-ui",
+  "deepLinking": true,
+  "displayRequestDuration": true,
+  "docExpansion": "none",
+  "operationsSorter": "alpha",
+  "showCommonExtensions": true,
+  "syntaxHighlight.theme": "nord",
+  "persistAuthorization": true
+}

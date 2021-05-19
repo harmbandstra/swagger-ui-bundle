@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->scalarNode('directory')->defaultValue('')->end()
                 ->scalarNode('assetUrlPath')->defaultValue('/bundles/hbswaggerui/')->end()
+                ->scalarNode('configFile')->defaultNull()->end()
                 ->arrayNode('files')->isRequired()->prototype('scalar')->end()
             ->end()
         ;

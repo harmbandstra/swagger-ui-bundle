@@ -13,6 +13,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends AbstractController
 {
+    private const SWAGGER_UI_START = 'Begin Swagger UI call region';
+    private const SWAGGER_UI_END = 'End Swagger UI call region';
+
     /** @var string */
     private $projectDir;
 
@@ -25,12 +28,16 @@ class DocsController extends AbstractController
     /** @var string */
     private $assetUrlPath;
 
-    public function __construct($projectDir, $swaggerFiles, $directory, $assetUrlPath)
+    /** @var string */
+    private $configFile;
+
+    public function __construct($projectDir, $swaggerFiles, $directory, $assetUrlPath, $configFile)
     {
         $this->projectDir = $projectDir;
         $this->swaggerFiles = $swaggerFiles;
         $this->directory = $directory;
         $this->assetUrlPath = $assetUrlPath;
+        $this->configFile = $configFile;
     }
 
     /**
@@ -46,10 +53,13 @@ class DocsController extends AbstractController
 
             return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
         }
-
         $contents = @file_get_contents(__DIR__ . '/../Resources/public/index.html');
         if ($contents === false) {
             throw new \RuntimeException('Unable to load [Resources/public/index.html]. Did [ScriptHandler::linkAssets] run correctly?');
+        }
+
+        if ($this->configFile) {
+            $contents = $this->replaceSwaggerUiCallRegion($contents);
         }
 
         return new Response($contents);
@@ -98,6 +108,41 @@ class DocsController extends AbstractController
             Response::HTTP_OK,
             ['Content-Type' => 'application/json']
         );
+    }
+
+    /**
+     * @param $contents
+     *
+     * @return string
+     */
+    private function replaceSwaggerUiCallRegion($contents)
+    {
+        $finalContents = [];
+        $isReplacement = false;
+
+        foreach (explode("\n", $contents) as $line) {
+            if (!$isReplacement) {
+                if (preg_match('!' . self::SWAGGER_UI_START . '!', $line)) {
+                    $isReplacement = true;
+
+                    $finalContents[] = 'const ui = SwaggerUIBundle({configUrl: "' . $this->configFile . '",
+                     "presets": [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIStandalonePreset
+                    ],
+                    "layout": "StandaloneLayout"
+                });';
+
+                    continue;
+                }
+
+                $finalContents[] = $line;
+            } elseif (preg_match('!' . self::SWAGGER_UI_END . '!', $line)) {
+                $isReplacement = false;
+            }
+        }
+
+        return implode("\n", $finalContents);
     }
 
     /**

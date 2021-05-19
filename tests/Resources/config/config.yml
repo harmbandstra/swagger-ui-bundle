@@ -11,6 +11,7 @@ framework:
 
 hb_swagger_ui:
   directory: "%kernel.project_dir%/tests/Resources/docs/"
+  configFile: "config.json"
   files:
       - "petstore.json"
       - "petstore.yaml"

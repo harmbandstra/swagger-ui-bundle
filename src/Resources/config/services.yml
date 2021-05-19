@@ -9,3 +9,4 @@ services:
       $swaggerFiles: '%hb_swagger_ui.files%'
       $directory: '%hb_swagger_ui.directory%'
       $assetUrlPath: '%hb_swagger_ui.assetUrlPath%'
+      $configFile: '%hb_swagger_ui.configFile%'
