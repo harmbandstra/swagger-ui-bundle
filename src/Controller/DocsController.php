@@ -13,9 +13,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends AbstractController
 {
-    private const SWAGGER_UI_START = 'Begin Swagger UI call region';
-    private const SWAGGER_UI_END = 'End Swagger UI call region';
-
     /** @var string */
     private $projectDir;
 
@@ -47,19 +44,15 @@ class DocsController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        if (!$request->get('url')) {
+        if (!$request->get('url') || (!$request->get('configUrl') && $this->configFile)) {
             // if there is no ?url=... parameter, redirect to the default one
-            $defaultSpecFile = reset($this->swaggerFiles);
+            $specFile = reset($this->swaggerFiles);
 
-            return $this->redirect($this->getRedirectUrlToSpec($defaultSpecFile));
+            return $this->redirect($this->getRedirectUrlToSpec($specFile, $request->get('url')));
         }
         $contents = @file_get_contents(__DIR__ . '/../Resources/public/index.html');
         if ($contents === false) {
             throw new \RuntimeException('Unable to load [Resources/public/index.html]. Did [ScriptHandler::linkAssets] run correctly?');
-        }
-
-        if ($this->configFile) {
-            $contents = $this->replaceSwaggerUiCallRegion($contents);
         }
 
         return new Response($contents);
@@ -111,41 +104,6 @@ class DocsController extends AbstractController
     }
 
     /**
-     * @param $contents
-     *
-     * @return string
-     */
-    private function replaceSwaggerUiCallRegion($contents)
-    {
-        $finalContents = [];
-        $isReplacement = false;
-
-        foreach (explode("\n", $contents) as $line) {
-            if (!$isReplacement) {
-                if (preg_match('!' . self::SWAGGER_UI_START . '!', $line)) {
-                    $isReplacement = true;
-
-                    $finalContents[] = 'const ui = SwaggerUIBundle({configUrl: "' . $this->configFile . '",
-                     "presets": [
-                        SwaggerUIBundle.presets.apis,
-                        SwaggerUIStandalonePreset
-                    ],
-                    "layout": "StandaloneLayout"
-                });';
-
-                    continue;
-                }
-
-                $finalContents[] = $line;
-            } elseif (preg_match('!' . self::SWAGGER_UI_END . '!', $line)) {
-                $isReplacement = false;
-            }
-        }
-
-        return implode("\n", $finalContents);
-    }
-
-    /**
      * @param string $fileName
      *
      * @return string
@@ -177,19 +135,29 @@ class DocsController extends AbstractController
      *
      * @return string
      */
-    private function getRedirectUrlToSpec($fileName)
+    private function getRedirectUrlToSpec($fileName, $url = null)
     {
-        if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
-            // if absolute path or URL use it raw
-            $specUrl = $fileName;
+        if ($url) {
+            $specUrl = $url;
         } else {
-            $specUrl = $this->generateUrl(
-                'hb_swagger_ui_swagger_file',
-                ['fileName' => $fileName],
-                UrlGeneratorInterface::ABSOLUTE_PATH
-            );
+            if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
+                // if absolute path or URL use it raw
+                $specUrl = $fileName;
+            } else {
+                $specUrl = $this->generateUrl(
+                    'hb_swagger_ui_swagger_file',
+                    ['fileName' => $fileName],
+                    UrlGeneratorInterface::ABSOLUTE_PATH
+                );
+            }
         }
 
-        return $this->generateUrl('hb_swagger_ui_default', ['url' => $specUrl]);
+        $parameters = ['url' => $specUrl];
+
+        if ($this->configFile) {
+            $parameters['configUrl'] = $this->configFile;
+        }
+
+        return $this->generateUrl('hb_swagger_ui_default', $parameters);
     }
 }
