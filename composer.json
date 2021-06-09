@@ -20,7 +20,7 @@
   },
   "require-dev": {
     "symfony/browser-kit": "^4.0|^5.0",
-    "composer/composer": "^1.8",
+    "composer/composer": "^2.0.13",
     "phpspec/prophecy": "^1.8",
     "phpunit/phpunit": "^8.5"
   },
