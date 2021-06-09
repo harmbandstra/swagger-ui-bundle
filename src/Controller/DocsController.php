@@ -13,9 +13,6 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends AbstractController
 {
-    /** @var string */
-    private $projectDir;
-
     /** @var array */
     private $swaggerFiles;
 
@@ -25,12 +22,11 @@ class DocsController extends AbstractController
     /** @var string */
     private $assetUrlPath;
 
-    /** @var string */
+    /** @var string|null */
     private $configFile;
 
-    public function __construct($projectDir, $swaggerFiles, $directory, $assetUrlPath, $configFile)
+    public function __construct($swaggerFiles, $directory, $assetUrlPath, $configFile)
     {
-        $this->projectDir = $projectDir;
         $this->swaggerFiles = $swaggerFiles;
         $this->directory = $directory;
         $this->assetUrlPath = $assetUrlPath;
@@ -44,15 +40,18 @@ class DocsController extends AbstractController
      */
     public function indexAction(Request $request)
     {
-        if (!$request->get('url') || (!$request->get('configUrl') && $this->configFile)) {
+        if (!$request->get('url')) {
             // if there is no ?url=... parameter, redirect to the default one
-            $specFile = reset($this->swaggerFiles);
+            $defaultSwaggerFile = reset($this->swaggerFiles);
 
-            return $this->redirect($this->getRedirectUrlToSpec($specFile, $request->get('url')));
+            return $this->redirect($this->getRedirectUrlToSpec($defaultSwaggerFile));
         }
         $contents = @file_get_contents(__DIR__ . '/../Resources/public/index.html');
         if ($contents === false) {
-            throw new \RuntimeException('Unable to load [Resources/public/index.html]. Did [ScriptHandler::linkAssets] run correctly?');
+            return new Response(
+                'Unable to load [Resources/public/index.html]. Did [ScriptHandler::linkAssets] run correctly?',
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
 
         return new Response($contents);
@@ -110,10 +109,12 @@ class DocsController extends AbstractController
      */
     private function getFilePath($fileName = '')
     {
-        if ($fileName !== '' && !in_array($fileName, $this->swaggerFiles)) {
-            throw new \RuntimeException(
-                sprintf('File [%s] not defined under [hb_swagger_ui.files] in config.yml.', $fileName)
-            );
+        if ($this->configFile !== $fileName) {
+            if ($fileName !== '' && !in_array($fileName, $this->swaggerFiles)) {
+                throw new \RuntimeException(
+                    sprintf('File [%s] not defined under [hb_swagger_ui.files] in config.yml.', $fileName)
+                );
+            }
         }
 
         if ($this->directory === '') {
@@ -135,27 +136,26 @@ class DocsController extends AbstractController
      *
      * @return string
      */
-    private function getRedirectUrlToSpec($fileName, $url = null)
+    private function getRedirectUrlToSpec($fileName)
     {
-        if ($url) {
-            $specUrl = $url;
+        if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
+            // if absolute path or URL use it raw
+            $specUrl = $fileName;
         } else {
-            if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
-                // if absolute path or URL use it raw
-                $specUrl = $fileName;
-            } else {
-                $specUrl = $this->generateUrl(
-                    'hb_swagger_ui_swagger_file',
-                    ['fileName' => $fileName],
-                    UrlGeneratorInterface::ABSOLUTE_PATH
-                );
-            }
+            $specUrl = $this->generateUrl(
+                'hb_swagger_ui_swagger_file',
+                ['fileName' => $fileName],
+                UrlGeneratorInterface::ABSOLUTE_PATH
+            );
         }
 
         $parameters = ['url' => $specUrl];
-
         if ($this->configFile) {
-            $parameters['configUrl'] = $this->configFile;
+            $parameters['configUrl'] = $this->generateUrl(
+                'hb_swagger_ui_swagger_file',
+                ['fileName' => $this->configFile],
+                UrlGeneratorInterface::ABSOLUTE_PATH
+            );
         }
 
         return $this->generateUrl('hb_swagger_ui_default', $parameters);

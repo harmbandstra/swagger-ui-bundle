@@ -129,6 +129,13 @@ hb_swagger_ui:
     - "my_other_swagger_spec.json"
 ```
 
+Optional: If you want to have a default configuration in place for Swagger UI, place a `config.json` in the same directory as the swagger files, and add it to the configuration. It will be loaded automatically by appending it as the query parameter `configUrl`.
+
+```yaml
+hb_swagger_ui:
+  configFile: "config.json"
+```
+
 Optional: If you serve your project from a different directory than the vhost root, you can overwrite the asset URL path with the `assetUrlPath` configuration. Be sure to add a leading and trailing slash.
 
 ```yaml
