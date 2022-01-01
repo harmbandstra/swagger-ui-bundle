@@ -143,6 +143,6 @@ hb_swagger_ui:
   assetUrlPath: '/my-vhost-sub-directory/bundles/hbswaggerui/'
 ```
 
-## Configuration (Symfony 4)
+## Configuration (Symfony 4, 5 and 6)
 
 Create a file `hb_swagger_ui.yaml` `in config/packages`. Follow the rest of the steps for configuration in Symfony 3.

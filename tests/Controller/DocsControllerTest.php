@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HarmBandstra\SwaggerUiBundle\Tests\Controller;
 
@@ -9,7 +9,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsControllerTest extends WebTestCase
 {
-    public function testIndex()
+    public function testIndex(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs');
@@ -18,7 +18,7 @@ class DocsControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_MOVED_PERMANENTLY, $response->getStatusCode());
     }
 
-    public function testIndexRedirectsProperly()
+    public function testIndexRedirectsProperly(): void
     {
         $client = static::createClient();
         $client->followRedirects(true);
@@ -38,7 +38,7 @@ class DocsControllerTest extends WebTestCase
         );
     }
 
-    public function testIndexWithTrailingSlash()
+    public function testIndexWithTrailingSlash(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/');
@@ -47,7 +47,7 @@ class DocsControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
     }
 
-    public function testRedirectWithValidFile()
+    public function testRedirectWithValidFile(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/petstore.json');
@@ -56,7 +56,7 @@ class DocsControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_FOUND, $response->getStatusCode());
     }
 
-    public function testIfSwaggerFileReturnsPetstoreJson()
+    public function testIfSwaggerFileReturnsPetstoreJson(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/file/petstore.json');
@@ -71,7 +71,7 @@ class DocsControllerTest extends WebTestCase
         );
     }
 
-    public function testIfSwaggerFileReturnsPetstoreYaml()
+    public function testIfSwaggerFileReturnsPetstoreYaml(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/file/petstore.yaml');
@@ -88,7 +88,7 @@ class DocsControllerTest extends WebTestCase
         );
     }
 
-    public function testIfSwaggerFileReturnsErrorOnInvalidFile()
+    public function testIfSwaggerFileReturnsErrorOnInvalidFile(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/file/invalid.yaml');
@@ -102,7 +102,7 @@ class DocsControllerTest extends WebTestCase
         );
     }
 
-    public function testIfSwaggerFileReturnsErrorOnFileNotFound()
+    public function testIfSwaggerFileReturnsErrorOnFileNotFound(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/file/not_found.yaml');
@@ -116,7 +116,7 @@ class DocsControllerTest extends WebTestCase
         );
     }
 
-    public function testIfConfigFileCanBeLoaded()
+    public function testIfConfigFileCanBeLoaded(): void
     {
         $client = static::createClient();
         $client->request('GET', '/docs/file/config.json');
@@ -125,7 +125,7 @@ class DocsControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $response->getStatusCode());
     }
 
-    public function testIfConfigFileReturnsFileNotFoundWhenNoConfigFileIsSet()
+    public function testIfConfigFileReturnsFileNotFoundWhenNoConfigFileIsSet(): void
     {
         $docsController = new DocsController(
             ["petstore.json", "petstore.yaml", "not_found.yaml"],

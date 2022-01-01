@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HarmBandstra\SwaggerUiBundle\DependencyInjection;
 
@@ -7,7 +7,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('hb_swagger_ui');
         if (\method_exists($treeBuilder, 'getRootNode')) {
@@ -19,12 +19,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('directory')->defaultValue('')->end()
-                ->scalarNode('assetUrlPath')->defaultValue('/bundles/hbswaggerui/')->end()
-                ->scalarNode('configFile')->defaultNull()->end()
-                ->arrayNode('files')->isRequired()->prototype('scalar')->end()
-            ->end()
-        ;
+            ->scalarNode('directory')->defaultValue('')->end()
+            ->scalarNode('assetUrlPath')->defaultValue('/bundles/hbswaggerui/')->end()
+            ->scalarNode('configFile')->defaultNull()->end()
+            ->arrayNode('files')->isRequired()->prototype('scalar')->end()
+            ->end();
 
         return $treeBuilder;
     }

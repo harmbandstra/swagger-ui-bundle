@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HarmBandstra\SwaggerUiBundle\Composer;
 
@@ -11,10 +11,7 @@ class ScriptHandler
     const SWAGGER_UI_DIST_DIR = 'swagger-api/swagger-ui/dist';
     const BUNDLE_PUBLIC_DIR = 'harmbandstra/swagger-ui-bundle/src/Resources/public';
 
-    /**
-     * @param Event $event
-     */
-    public static function linkAssets(Event $event)
+    public static function linkAssets(Event $event): void
     {
         $filesystem = new Filesystem();
         $vendorDir = $event->getComposer()->getConfig()->get('vendor-dir');

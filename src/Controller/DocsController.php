@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HarmBandstra\SwaggerUiBundle\Controller;
 
@@ -13,19 +13,12 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends AbstractController
 {
-    /** @var array */
-    private $swaggerFiles;
+    private array $swaggerFiles;
+    private string $directory;
+    private ?string $assetUrlPath;
+    private ?string $configFile;
 
-    /** @var string */
-    private $directory;
-
-    /** @var string */
-    private $assetUrlPath;
-
-    /** @var string|null */
-    private $configFile;
-
-    public function __construct($swaggerFiles, $directory, $assetUrlPath, $configFile)
+    public function __construct(array $swaggerFiles, string $directory, ?string $assetUrlPath, ?string $configFile)
     {
         $this->swaggerFiles = $swaggerFiles;
         $this->directory = $directory;
@@ -33,12 +26,7 @@ class DocsController extends AbstractController
         $this->configFile = $configFile;
     }
 
-    /**
-     * @param Request $request
-     *
-     * @return Response
-     */
-    public function indexAction(Request $request)
+    public function indexAction(Request $request): Response
     {
         if (!$request->get('url')) {
             // if there is no ?url=... parameter, redirect to the default one
@@ -57,12 +45,7 @@ class DocsController extends AbstractController
         return new Response($contents);
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return RedirectResponse
-     */
-    public function redirectAction($fileName)
+    public function redirectAction(string $fileName): RedirectResponse
     {
         // redirect to swagger file if that's what we're looking for
         if (in_array($fileName, $this->swaggerFiles, true)) {
@@ -73,12 +56,7 @@ class DocsController extends AbstractController
         return $this->redirect($this->assetUrlPath . $fileName);
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return JsonResponse|Response
-     */
-    public function swaggerFileAction($fileName)
+    public function swaggerFileAction(string $fileName): Response
     {
         try {
             $filePath = $this->getFilePath($fileName);
@@ -102,12 +80,7 @@ class DocsController extends AbstractController
         );
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return string
-     */
-    private function getFilePath($fileName = '')
+    private function getFilePath(string $fileName = ''): string
     {
         if ($this->configFile !== $fileName) {
             if ($fileName !== '' && !in_array($fileName, $this->swaggerFiles)) {
@@ -124,19 +97,15 @@ class DocsController extends AbstractController
         }
 
         $filePath = realpath($this->directory . DIRECTORY_SEPARATOR . $fileName);
-        if (!is_file($filePath)) {
+
+        if (!is_string($filePath) || !is_file($filePath)) {
             throw new FileNotFoundException(sprintf('File [%s] not found.', $fileName));
         }
 
         return $filePath;
     }
 
-    /**
-     * @param string $fileName
-     *
-     * @return string
-     */
-    private function getRedirectUrlToSpec($fileName)
+    private function getRedirectUrlToSpec(string $fileName): string
     {
         if (strpos($fileName, '/') === 0 || preg_match('#http[s]?://#', $fileName)) {
             // if absolute path or URL use it raw

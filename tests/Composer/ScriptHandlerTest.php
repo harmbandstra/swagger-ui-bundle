@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace HarmBandstra\SwaggerUiBundle\Tests\Controller;
+namespace HarmBandstra\SwaggerUiBundle\Tests\Composer;
 
 use Composer\Composer;
 use Composer\Config;
@@ -9,23 +9,31 @@ use Composer\Script\Event;
 use HarmBandstra\SwaggerUiBundle\Composer\ScriptHandler;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\Prophet;
 use Symfony\Component\Filesystem\Filesystem;
 
 class ScriptHandlerTest extends TestCase
 {
+    private Prophet $prophet;
+
+    protected function setUp(): void
+    {
+        $this->prophet = new Prophet;
+    }
+
     public function testIfSwaggerAssetsAreCopiedCorrectly()
     {
         $vendorDirectory = __DIR__ . '/../../vendor';
 
-        $config = $this->prophesize(Config::class);
+        $config = $this->prophet->prophesize(Config::class);
         $config->get('vendor-dir')->willReturn($vendorDirectory);
 
-        $composer = $this->prophesize(Composer::class);
+        $composer = $this->prophet->prophesize(Composer::class);
         $composer->getConfig()->willReturn($config->reveal());
 
-        $io = $this->prophesize(IOInterface::class);
+        $io = $this->prophet->prophesize(IOInterface::class);
 
-        $event = $this->prophesize(Event::class);
+        $event = $this->prophet->prophesize(Event::class);
         $io->write(Argument::any())->shouldBeCalled();
         $event->getIO()->willReturn($io->reveal());
         $event->getComposer()->willReturn($composer->reveal());
@@ -47,6 +55,8 @@ class ScriptHandlerTest extends TestCase
 
     public function tearDown(): void
     {
+        $this->prophet->checkPredictions();
+
         $filesystem = new Filesystem();
         $filesystem->remove(sprintf('%s/../../vendor/harmbandstra', __DIR__));
     }

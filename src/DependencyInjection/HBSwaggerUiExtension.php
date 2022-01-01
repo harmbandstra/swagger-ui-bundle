@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace HarmBandstra\SwaggerUiBundle\DependencyInjection;
 
@@ -9,7 +9,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class HBSwaggerUiExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $config = $this->processConfiguration(new Configuration(), $configs);
 
