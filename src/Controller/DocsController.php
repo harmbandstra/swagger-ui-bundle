@@ -33,14 +33,16 @@ class DocsController extends Controller
         }
 
         $indexFilePath = $this->getParameter('kernel.root_dir') . '/../vendor/swagger-api/swagger-ui/dist/index.html';
+        $contents = file_get_contents($indexFilePath);
 
         $configFile = $this->getParameter('hb_swagger_ui.configFile');
 
         if ($configFile) {
-            $contents = $this->replaceSwaggerUiCallRegion($contents);
+            $contents = $this->replaceSwaggerUiCallRegion(file_get_contents($indexFilePath));
         }
+        dump($contents);
 
-        return new Response(file_get_contents($indexFilePath));
+        return new Response($contents);
     }
 
     /**
@@ -107,7 +109,7 @@ class DocsController extends Controller
                 if (preg_match('!' . self::SWAGGER_UI_START . '!', $line)) {
                     $isReplacement = true;
 
-                    $finalContents[] = 'const ui = SwaggerUIBundle({configUrl: "' . $configFile . '",
+                    $finalContents[] = 'const ui = SwaggerUIBundle({"configUrl": "' . $configFile . '",
                      "presets": [
                         SwaggerUIBundle.presets.apis,
                         SwaggerUIStandalonePreset
