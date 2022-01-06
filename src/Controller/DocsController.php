@@ -40,7 +40,6 @@ class DocsController extends Controller
         if ($configFile) {
             $contents = $this->replaceSwaggerUiCallRegion(file_get_contents($indexFilePath));
         }
-        dump($contents);
 
         return new Response($contents);
     }
@@ -109,12 +108,18 @@ class DocsController extends Controller
                 if (preg_match('!' . self::SWAGGER_UI_START . '!', $line)) {
                     $isReplacement = true;
 
-                    $finalContents[] = 'const ui = SwaggerUIBundle({"configUrl": "' . $configFile . '",
-                     "presets": [
+                    $finalContents[] = 'const ui = SwaggerUIBundle({
+                    configUrl: "' . $configFile . '",
+                    dom_id: "#swagger-ui",
+                    deepLinking: true,
+                     presets: [
                         SwaggerUIBundle.presets.apis,
                         SwaggerUIStandalonePreset
                     ],
-                    "layout": "StandaloneLayout"
+                    plugins: [
+                        SwaggerUIBundle.plugins.DownloadUrl
+                    ],
+                    layout: "StandaloneLayout"
                 });';
 
                     continue;
