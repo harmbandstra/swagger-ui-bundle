@@ -13,8 +13,8 @@ use Symfony\Component\Yaml\Yaml;
 
 class DocsController extends Controller
 {
-    private const SWAGGER_UI_START = 'Begin Swagger UI call region';
-    private const SWAGGER_UI_END = 'End Swagger UI call region';
+    const SWAGGER_UI_START = 'Begin Swagger UI call region';
+    const SWAGGER_UI_END = 'End Swagger UI call region';
 
     /**
      * @param Request $request
