@@ -3,7 +3,7 @@
   "type": "symfony-bundle",
   "description": "Exposes swagger UI inside your Symfony project through a route (eg. /docs)",
   "keywords": [
-    "swagger", "php", "symfony", "swagger-ui", "api", "doc", "bundle"
+    "php", "symfony", "swagger-ui", "openapi" ,"api", "doc", "bundle", "swagger"
   ],
   "homepage": "https://github.com/harmbandstra/swagger-ui-bundle",
   "license": "GPL-3.0-or-later",

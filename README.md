@@ -5,7 +5,7 @@
 
 Expose swagger-ui inside your symfony project through a route (eg. /docs), just like [nelmio api docs](https://github.com/nelmio/NelmioApiDocBundle), without the need for node.
 
-Just add a reference to your swagger Yaml or JSON specification, and enjoy swagger-ui in all it's glory.
+Just add a reference to your OpenAPI Yaml or JSON specification, and enjoy swagger-ui in all it's glory.
 
 After installation and configuration, just start your local webserver, and navigate to [/docs](http://127.0.0.1:8000/docs) or [/docs/my_swagger_spec.yml](http://127.0.0.1:8000/docs/my_swagger_spec.yml).
 
