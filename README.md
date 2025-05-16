@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/harmbandstra/swagger-ui-bundle.svg?branch=master)](https://travis-ci.com/harmbandstra/swagger-ui-bundle)
+[![Build Status](https://app.travis-ci.com/harmbandstra/swagger-ui-bundle.svg?token=x444SCSSPa3sataxTmxT&branch=master)](https://app.travis-ci.com/github/harmbandstra/swagger-ui-bundle)
 [![Code Coverage](https://scrutinizer-ci.com/g/harmbandstra/swagger-ui-bundle/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/harmbandstra/swagger-ui-bundle/?branch=master)
 
 # Swagger UI Bundle

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.8/phpunit.xsd"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
          backupGlobals="false"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
@@ -11,29 +9,28 @@
          colors="false"
          bootstrap="vendor/autoload.php"
 >
-    <php>
-        <ini name="error_reporting" value="-1" />
-        <server name="KERNEL_DIR" value="tests/" />
-        <env name="KERNEL_CLASS" value="HarmBandstra\SwaggerUiBundle\Tests\AppKernel" />
-    </php>
-
-    <testsuites>
-        <testsuite name="Swagger UI Bundle Test Suite">
-            <directory>tests</directory>
-        </testsuite>
-    </testsuites>
-
-    <filter>
-        <whitelist>
-            <directory>src</directory>
-            <exclude>
-                <directory>src/Resources</directory>
-                <directory>src/DependencyInjection</directory>
-            </exclude>
-        </whitelist>
-    </filter>
-    <logging>
-        <log type="coverage-text" target="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
-        <log type="coverage-clover" target="./build/clover.xml"/>
-    </logging>
+  <coverage>
+    <include>
+      <directory>src</directory>
+    </include>
+    <exclude>
+      <directory>src/Resources</directory>
+      <directory>src/DependencyInjection</directory>
+    </exclude>
+    <report>
+      <clover outputFile="./build/clover.xml"/>
+      <text outputFile="php://stdout" showUncoveredFiles="false" showOnlySummary="true"/>
+    </report>
+  </coverage>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <server name="KERNEL_DIR" value="tests/"/>
+    <env name="KERNEL_CLASS" value="HarmBandstra\SwaggerUiBundle\Tests\AppKernel"/>
+  </php>
+  <testsuites>
+    <testsuite name="Swagger UI Bundle Test Suite">
+      <directory>tests</directory>
+    </testsuite>
+  </testsuites>
+  <logging/>
 </phpunit>

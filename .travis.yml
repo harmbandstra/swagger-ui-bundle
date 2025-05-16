@@ -1,9 +1,9 @@
 language: php
-dist: focal
+dist: noble
 php:
   - '7.4'
-  - '8.0'
-  - '8.1.0'
+  - '8.3'
+  - '8.4'
 
 install: composer update
 
